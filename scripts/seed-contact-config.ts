@@ -22,9 +22,9 @@ async function main() {
 
   const created = await prisma.siteContactConfig.create({
     data: {
-      phone: devSafe(business.contact.primary_phone, "+91 90000 00000"),
-      whatsapp: devSafe(business.contact.whatsapp, "+91 90000 00000"),
-      email: devSafe(business.contact.primary_email, "hello@zenkraft.example"),
+      phone: devSafe(business.contact.primary_phone, "+91 8984627829"),
+      whatsapp: devSafe(business.contact.whatsapp, "+91 8984627829"),
+      email: devSafe(business.contact.primary_email, "contact@zenkraftdesignstudio.com"),
       addressLine1: devSafe(business.address.line_1, "TBD — address pending verification"),
       addressLine2:
         business.address.line_2 && !CONFIG_PLACEHOLDER_PATTERN.test(business.address.line_2)
