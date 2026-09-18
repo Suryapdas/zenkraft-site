@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: zenkraft_dev_password
       POSTGRES_DB: zenkraft
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - zenkraft_postgres_data:/var/lib/postgresql/data
     healthcheck:

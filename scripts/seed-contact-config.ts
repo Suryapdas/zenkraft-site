@@ -2,6 +2,8 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { loadBusinessConfig } from "@zenkraft/config";
 
+
+
 const prisma = new PrismaClient();
 
 const CONFIG_PLACEHOLDER_PATTERN = /^\[CONFIG:.*\]$/;
