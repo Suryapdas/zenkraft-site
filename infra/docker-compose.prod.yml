@@ -1,0 +1,102 @@
+# Production stack for a single Oracle Cloud Always Free VM.
+# Run from the repo root: docker compose -f infra/docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# See infra/DEPLOY_ORACLE.md for the full setup guide (DNS, firewall, secrets).
+#
+# Explicit project name + "-prod" container/volume names: this file lives in
+# the same infra/ directory as docker-compose.yml (local dev). Without an
+# explicit name here, Compose derives the project name from the directory
+# and both files would resolve to the SAME project, sharing container names
+# AND named volumes — i.e. running this against a machine that also has the
+# dev stack would silently repoint dev's Postgres/MinIO data. `name:` below
+# makes that impossible regardless of which directory either file runs from.
+name: zenkraft-prod
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zenkraft-prod-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - zenkraft_prod_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [zenkraft]
+
+  minio:
+    image: minio/minio:latest
+    container_name: zenkraft-prod-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${STORAGE_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${STORAGE_SECRET_KEY}
+    volumes:
+      - zenkraft_prod_minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [zenkraft]
+
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    container_name: zenkraft-prod-api
+    restart: unless-stopped
+    command: sh -c "npx prisma migrate deploy --schema=prisma/schema.prisma && node apps/api/dist/server.js"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      STORAGE_ENDPOINT: ${STORAGE_ENDPOINT}
+      STORAGE_PORT: ${STORAGE_PORT}
+      STORAGE_USE_SSL: ${STORAGE_USE_SSL}
+      STORAGE_ACCESS_KEY: ${STORAGE_ACCESS_KEY}
+      STORAGE_SECRET_KEY: ${STORAGE_SECRET_KEY}
+      STORAGE_BUCKET: ${STORAGE_BUCKET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [zenkraft]
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    container_name: zenkraft-prod-web
+    restart: unless-stopped
+    depends_on: [api]
+    networks: [zenkraft]
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: zenkraft-prod-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - zenkraft_prod_caddy_data:/data
+      - zenkraft_prod_caddy_config:/config
+    depends_on: [web, api, minio]
+    networks: [zenkraft]
+
+networks:
+  zenkraft:
+
+volumes:
+  zenkraft_prod_postgres_data:
+  zenkraft_prod_minio_data:
+  zenkraft_prod_caddy_data:
+  zenkraft_prod_caddy_config:

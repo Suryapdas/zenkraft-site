@@ -1,0 +1,47 @@
+brand:
+  legal_name: "ZENKRAFT Design Studios"
+  display_name: "ZENKRAFT Design Studios"
+  tagline: "WE BUILD TO INSPIRE"
+  description: "We craft sustainable building designs that make your vision real."
+
+contact:
+  primary_phone: "8984627829"
+  whatsapp: "8984627829"
+  primary_email: "contact@zenkraftdesignstudio.com"
+  enquiry_email: "contact@zenkraftdesignstudio.com"
+
+address:
+  line_1: "[CONFIG:ADDRESS_LINE_1]"
+  line_2: "[CONFIG:ADDRESS_LINE_2]"
+  city: "[CONFIG:CITY]"
+  state: "[CONFIG:STATE]"
+  country: "India"
+  postal_code: "[CONFIG:POSTAL_CODE]"
+  latitude: "[CONFIG:LATITUDE]"
+  longitude: "[CONFIG:LONGITUDE]"
+  google_maps_url: "[CONFIG:GOOGLE_MAPS_URL]"
+
+business_hours:
+  timezone: "Asia/Kolkata"
+  monday: "[CONFIG:HOURS]"
+  tuesday: "[CONFIG:HOURS]"
+  wednesday: "[CONFIG:HOURS]"
+  thursday: "[CONFIG:HOURS]"
+  friday: "[CONFIG:HOURS]"
+  saturday: "[CONFIG:HOURS]"
+  sunday: "[CONFIG:CLOSED_OR_HOURS]"
+
+social:
+  instagram: "[CONFIG:INSTAGRAM_URL]"
+  facebook: "[CONFIG:FACEBOOK_URL]"
+  linkedin: "[CONFIG:LINKEDIN_URL]"
+  youtube: "[CONFIG:YOUTUBE_URL]"
+
+verification:
+  address_verified: false
+  phone_verified: false
+  email_verified: false
+  map_pin_verified: false
+  social_profiles_verified: false
+  verified_by: "[CONFIG:CLIENT_CONTACT]"
+  verified_on: "[CONFIG:YYYY-MM-DD]"

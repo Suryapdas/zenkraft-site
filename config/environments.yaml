@@ -1,0 +1,14 @@
+development:
+  frontend_url: "[CONFIG:DEV_FRONTEND_URL]"
+  api_url: "[CONFIG:DEV_API_URL]"
+  analytics_enabled: false
+
+staging:
+  frontend_url: "[CONFIG:STAGING_FRONTEND_URL]"
+  api_url: "[CONFIG:STAGING_API_URL]"
+  analytics_enabled: true
+
+production:
+  frontend_url: "https://zenkraftdesignstudio.com"
+  api_url: "https://api.zenkraftdesignstudio.com"
+  analytics_enabled: true

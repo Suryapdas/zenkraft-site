@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zenkraft-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zenkraft
+      POSTGRES_PASSWORD: zenkraft_dev_password
+      POSTGRES_DB: zenkraft
+    ports:
+      - "5433:5432"
+    volumes:
+      - zenkraft_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zenkraft -d zenkraft"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: zenkraft-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: zenkraft
+      MINIO_ROOT_PASSWORD: zenkraft_dev_password
+    ports:
+      - "9002:9000"
+      - "9003:9001"
+    volumes:
+      - zenkraft_minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  zenkraft_postgres_data:
+  zenkraft_minio_data:

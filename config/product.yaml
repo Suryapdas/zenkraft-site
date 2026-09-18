@@ -1,0 +1,44 @@
+product:
+  name: "ZENKRAFT Client Engagement Platform"
+  mode: "website + lead capture"
+
+brand:
+  visual_direction: "premium, architectural, minimal, sophisticated"
+  tone: "confident, refined, consultative"
+
+lead_capture:
+  primary_cta: "Book a Consultation"
+  secondary_cta: "Start Your Project"
+  enable_whatsapp: true
+  enable_phone_call: true
+  enable_email: true
+  require_consent: true
+
+project_types:
+  - Residential Interior
+  - Commercial Interior
+  - Architecture
+  - Construction
+  - Turnkey Project
+  - Renovation
+  - Other
+
+budget_ranges:
+  - "[CONFIG:BUDGET_RANGE_1]"
+  - "[CONFIG:BUDGET_RANGE_2]"
+  - "[CONFIG:BUDGET_RANGE_3]"
+  - "[CONFIG:BUDGET_RANGE_4]"
+
+timeline_options:
+  - Immediate
+  - Within 1–3 months
+  - Within 3–6 months
+  - 6+ months
+  - Planning stage
+
+admin:
+  enabled: true
+  roles:
+    - Admin
+    - Sales/Client Engagement
+    - Content Manager
