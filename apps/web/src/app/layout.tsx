@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Libre_Caslon_Text, Metrophobic } from "next/font/google";
-// Global CSS is processed by Next.js; TypeScript has no module declaration for it.
-// @ts-expect-error -- intentional side-effect import handled by Next.js
 import "./globals.css";
 import { SiteHeader } from "@/components/nav/SiteHeader";
 import { SiteFooter } from "@/components/nav/SiteFooter";
